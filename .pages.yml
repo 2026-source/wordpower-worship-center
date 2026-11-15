@@ -1,0 +1,123 @@
+media:
+  input: images
+  output: /images
+
+content:
+  - name: messages
+    label: Messages bibliques
+    type: collection
+    path: content/messages
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      primary: title
+      fields:
+        - title
+        - date
+        - bible_reference
+        - published
+      sort:
+        - date
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Titre du message
+        type: string
+        required: true
+
+      - name: date
+        label: Date de publication
+        type: date
+        required: true
+
+      - name: bible_reference
+        label: Référence biblique
+        type: string
+        required: true
+
+      - name: excerpt
+        label: Résumé du message
+        type: text
+
+      - name: image
+        label: Image du message
+        type: image
+        options:
+          media: images
+
+      - name: body
+        label: Contenu du message
+        type: rich-text
+        options:
+          media: images
+
+      - name: published
+        label: Publier le message
+        type: boolean
+
+  - name: evenements
+    label: Événements
+    type: collection
+    path: content/evenements
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      primary: title
+      fields:
+        - title
+        - date
+        - location
+        - published
+      sort:
+        - date
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Nom de l'événement
+        type: string
+        required: true
+
+      - name: date
+        label: Date de l'événement
+        type: date
+        required: true
+
+      - name: time
+        label: Heure
+        type: string
+
+      - name: location
+        label: Lieu
+        type: string
+
+      - name: theme
+        label: Thème de l'événement
+        type: string
+
+      - name: excerpt
+        label: Description courte
+        type: text
+
+      - name: image
+        label: Affiche de l'événement
+        type: image
+        options:
+          media: images
+
+      - name: body
+        label: Description détaillée
+        type: rich-text
+        options:
+          media: images
+
+      - name: published
+        label: Publier l'événement
+        type: boolean
+
+settings:
+  content:
+    merge: true

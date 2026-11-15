@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WordPower Worship Center</title>
+
+<meta name="description" content="WordPower Worship Center : unis pour adorer Dieu, prier ensemble et annoncer Jésus-Christ.">
+
+<meta name="theme-color" content="#171313">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --background: #171313;
+    --surface: #211b19;
+    --surface-light: #2b2320;
+    --gold: #F5B335;
+    --orange: #D94B18;
+    --white: #ffffff;
+    --text: #f7f2e9;
+    --muted: #c8bfb4;
+    --border: rgba(255,255,255,.10);
+    --max-width: 1180px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+}
+
+.container {
+    width: min(100% - 40px, var(--max-width));
+    margin: auto;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: clamp(27px, 4vw, 40px);
+    margin-bottom: 22px;
+}
+
+p {
+    color: var(--muted);
+}
+
+.gold {
+    color: var(--gold);
+}
+
+.eyebrow {
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: .17em;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.section {
+    padding: 85px 0;
+}
+
+.section-heading {
+    margin-bottom: 35px;
+}
+
+.section-heading.center {
+    text-align: center;
+}
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 25px;
+    border-radius: 40px;
+    font-weight: 700;
+    transition: .25s;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.btn-gold {
+    background: var(--gold);
+    color: #171313;
+}
+
+.btn-gold:hover {
+    background: #ffd16d;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    border-color: var(--gold);
+    color: white;
+}
+
+.btn-outline:hover {
+    background: var(--gold);
+    color: #171313;
+}
+
+.btn-small {
+    padding: 10px 18px;
+    font-size: 14px;
+}
+
+/* HEADER */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(23,19,19,.96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+}
+
+.navbar {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.brand img {
+    width: 53px;
+    height: 53px;
+    object-fit: contain;
+}
+
+.brand-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: white;
+}
+
+.brand-text span {
+    display: block;
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+}
+
+.nav-links a {
+    color: #eee5dc;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--gold);
+}
+
+.nav-donate {
+    background: var(--gold);
+    color: #171313 !important;
+    padding: 9px 17px;
+    border-radius: 30px;
+}
+
+.menu-toggle {
+    display: none;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: white;
+    border-radius: 9px;
+    padding: 8px 12px;
+    font-size: 23px;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 680px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    background:
+        linear-gradient(rgba(0,0,0,.60), rgba(0,0,0,.70)),
+        url("https://wordpower25.wordpress.com/wp-content/uploads/2026/11/wordpower-adoration-hero.jpg") center 45% / cover no-repeat;
+}
+
+.hero-content {
+    width: min(850px, 90%);
+    padding: 80px 0;
+}
+
+.hero h1 {
+    color: white;
+    font-size: clamp(39px, 6vw, 68px);
+    margin-bottom: 25px;
+}
+
+.hero p {
+    color: #f5f0e9;
+    font-size: clamp(15px, 2vw, 19px);
+    max-width: 720px;
+    margin: 0 auto 32px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* MISSION */
+
+.mission-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 40px;
+}
+
+.mission-card {
+    padding: 30px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+.mission-card h3 {
+    color: var(--gold);
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.mission-card p {
+    font-size: 15px;
+}
+
+/* FAITH */
+
+.faith-section {
+    background: #fff5e9;
+    color: #211b19;
+    text-align: center;
+    padding: 75px 20px;
+}
+
+.faith-section p {
+    color: #51443c;
+    max-width: 800px;
+    margin: auto;
+}
+
+.faith-section h2 {
+    color: #211b19;
+}
+
+/* HOME MESSAGE */
+
+.home-message {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    align-items: center;
+    gap: 50px;
+}
+
+.home-message img {
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+    object-fit: contain;
+}
+
+/* CTA */
+
+.cta {
+    background: #211b19;
+    text-align: center;
+    padding: 75px 20px;
+}
+
+.cta p {
+    max-width: 750px;
+    margin: 0 auto 28px;
+}
+
+/* PAGE HERO */
+
+.page-hero {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.75)),
+    url("https://wordpower25.wordpress.com/wp-content/uploads/2026/11/wordpower-rencontre-adoration-1.jpg") center / cover no-repeat;
+    padding: 60px 20px;
+}
+
+.page-hero h1 {
+    font-size: clamp(34px, 5vw, 50px);
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* ABOUT */
+
+.about-hero {
+    background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.65)),
+    url("https://wordpower25.wordpress.com/wp-content/uploads/2026/11/wordpower-responsable-portrait.jpg") center 35% / cover no-repeat;
+}
+
+.about-intro {
+    max-width: 900px;
+}
+
+.about-intro h2 {
+    color: var(--gold);
+    margin-top: 35px;
+}
+
+.about-mission {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+    margin: 30px 0 55px;
+}
+
+.about-photo {
+    width: min(100%, 420px);
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin: 25px auto;
+}
+
+.community-photo {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin: 35px 0;
+}
+
+/* POSTS */
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.post-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.post-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.post-card-content {
+    padding: 23px;
+}
+
+.post-card h3 {
+    font-size: 23px;
+    margin-bottom: 12px;
+}
+
+.post-card p {
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.post-date {
+    color: var(--gold);
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+/* ARTICLE */
+
+.article {
+    max-width: 850px;
+    margin: auto;
+}
+
+.article h1 {
+    font-size: clamp(34px,5vw,48px);
+    margin-bottom: 15px;
+}
+
+.article .article-theme {
+    color: var(--gold);
+    margin: 25px 0 15px;
+    font-weight: 700;
+}
+
+.article-content {
+    margin-top: 30px;
+    font-size: 17px;
+}
+
+.article-content p {
+    margin-bottom: 22px;
+}
+
+.article-image {
+    width: 100%;
+    border-radius: 15px;
+    margin: 30px 0;
+}
+
+.share-area {
+    border-top: 1px solid var(--border);
+    margin-top: 45px;
+    padding-top: 25px;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.share-buttons a,
+.share-buttons button {
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+/* EVENTS */
+
+.empty-state {
+    padding: 35px;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+/* DONATION */
+
+.donation-box {
+    max-width: 850px;
+    margin: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 35px;
+}
+
+.donation-box h2 {
+    color: var(--gold);
+    font-size: 27px;
+    margin: 30px 0 15px;
+}
+
+.important-note {
+    border-left: 4px solid var(--gold);
+    padding: 15px 20px;
+    background: var(--surface-light);
+    margin: 25px 0;
+}
+
+/* FOOTER */
+
+footer {
+    background: #100e0d;
+    border-top: 1px solid var(--border);
+    padding: 55px 0 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.footer-logo {
+    width: 190px;
+    margin-bottom: 15px;
+}
+
+footer h3 {
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+footer ul {
+    list-style: none;
+}
+
+footer li {
+    margin: 8px 0;
+}
+
+footer a {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+footer a:hover {
+    color: var(--gold);
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding-top: 20px;
+    font-size: 13px;
+    color: #9d938a;
+}
+
+/* PAGES */
+
+.page {
+    display: none;
+    min-height: 65vh;
+}
+
+.page.active {
+    display: block;
+}
+
+#home {
+    display: none;
+}
+
+#home.active {
+    display: block;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 850px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 76px;
+        left: 0;
+        right: 0;
+        background: #171313;
+        border-bottom: 1px solid var(--border);
+        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 13px 10px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-donate {
+        text-align: center;
+        margin-top: 12px;
+    }
+
+    .mission-grid,
+    .about-mission {
+        grid-template-columns: 1fr;
+    }
+
+    .home-message {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .posts-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .hero {
+        min-height: 590px;
+    }
+}
+
+@media(max-width: 560px) {
+    .container {
+        width: min(100% - 30px, var(--max-width));
+    }
+
+    .section {
+        padding: 60px 0;
+    }
+
+    .brand-text {
+        font-size: 15px;
+    }
+
+    .brand img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .hero {
+        min-height: 590px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-buttons .btn {
+        width: min(100%,280px);
+    }
+
+    .posts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .donation-box {
+        padding: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- EN-TÊTE -->
+
+<header>
+    <div class="container navbar">
+
+        <a href="#accueil" class="brand" onclick="showPage('home')">
+            <img src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/wordpower-icon-transparent.png" alt="Logo WordPower">
+            <div class="brand-text">
+                WordPower
+                <span>WORSHIP CENTER</span>
+            </div>
+        </a>
+
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Ouvrir le menu">☰</button>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="#accueil" onclick="showPage('home')">Accueil</a>
+            <a href="#a-propos" onclick="showPage('about')">À propos</a>
+            <a href="#messages" onclick="showPage('messages')">Messages</a>
+            <a href="#evenements" onclick="showPage('events')">Événements</a>
+            <a href="#faire-un-don" class="nav-donate" onclick="showPage('donate')">Faire un don</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<!-- ACCUEIL -->
+
+<main>
+
+<section id="home" class="page active">
+
+    <div class="hero">
+        <div class="hero-content">
+
+            <div class="eyebrow">WordPower Worship Center</div>
+
+            <h1>Unis pour adorer Dieu,<br>transformés par sa Parole.</h1>
+
+            <p>
+                Un lieu de rencontre où nous adorons le Seigneur Jésus-Christ,
+                prions ensemble et annonçons la Bonne Nouvelle.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#a-propos" class="btn btn-gold" onclick="showPage('about')">
+                    Découvrir notre ministère
+                </a>
+
+                <a href="#evenements" class="btn btn-outline" onclick="showPage('events')">
+                    Nos événements
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <section class="section">
+        <div class="container">
+
+            <div class="section-heading center">
+                <div class="eyebrow">Notre cœur de mission</div>
+                <h2>Une communauté rassemblée autour de Jésus</h2>
+            </div>
+
+            <div class="mission-grid">
+
+                <div class="mission-card">
+                    <h3>Adorer</h3>
+                    <p>
+                        Nous nous réunissons pour élever le nom de Dieu,
+                        célébrer sa présence et lui offrir une adoration sincère.
+                    </p>
+                </div>
+
+                <div class="mission-card">
+                    <h3>Prier</h3>
+                    <p>
+                        Nous croyons à la puissance de la prière et encourageons
+                        chacun à chercher Dieu ensemble, dans la foi et l'unité.
+                    </p>
+                </div>
+
+                <div class="mission-card">
+                    <h3>Évangéliser</h3>
+                    <p>
+                        Nous voulons partager l'Évangile de Jésus-Christ et
+                        conduire des vies à la connaissance du Seigneur.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="faith-section">
+        <div class="container">
+            <div class="eyebrow">Notre foi</div>
+            <h2>Jésus-Christ est Seigneur, Sauveur et Dieu</h2>
+
+            <p>
+                WordPower confesse le Seigneur Jésus-Christ comme le seul
+                Seigneur et Sauveur. Toute notre adoration, notre foi et notre
+                mission sont centrées sur Lui.
+            </p>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container home-message">
+
+            <div>
+                <div class="eyebrow">Grandir dans la Parole</div>
+
+                <h2>Les messages qui édifient votre foi</h2>
+
+                <p>
+                    Retrouvez ici les exhortations et méditations partagées
+                    par le ministère. Chaque message pourra être lu sur le site
+                    puis facilement partagé avec vos proches sur WhatsApp.
+                </p>
+
+                <br>
+
+                <a href="#messages" class="btn btn-gold" onclick="showPage('messages')">
+                    Lire les messages
+                </a>
+            </div>
+
+            <img
+                src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/wordpower-logo-officiel-transparent.png"
+                alt="Logo officiel WordPower Worship Center"
+            >
+
+        </div>
+    </section>
+
+
+    <section class="cta">
+        <div class="container">
+
+            <div class="eyebrow">Soutenir l'œuvre</div>
+
+            <h2>Ensemble, faisons rayonner l'Évangile</h2>
+
+            <p>
+                Votre générosité peut contribuer aux rencontres d'adoration,
+                aux actions d'évangélisation et aux projets du ministère.
+                Merci de soutenir cette mission dans la prière et selon vos moyens.
+            </p>
+
+            <a href="#faire-un-don" class="btn btn-gold" onclick="showPage('donate')">
+                Soutenir le ministère
+            </a>
+
+        </div>
+    </section>
+
+</section>
+
+
+<!-- À PROPOS -->
+
+<section id="about" class="page">
+
+    <div class="page-hero about-hero">
+        <div>
+            <h1>WordPower Worship Center</h1>
+            <p>Une passion : adorer Dieu, prier et annoncer Jésus-Christ</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container about-intro">
+
+            <h2>Qui sommes-nous ?</h2>
+
+            <p>
+                WordPower Worship Center est un centre d'adoration qui rassemble
+                des chrétiens autour du Seigneur Jésus-Christ. Nous nous réunissons
+                pour adorer Dieu, prier ensemble, grandir dans la foi et annoncer
+                l'Évangile afin que des vies soient gagnées au Seigneur.
+            </p>
+
+            <h2>Notre foi</h2>
+
+            <p>
+                Nous croyons au Seigneur Jésus-Christ, le seul Seigneur,
+                Sauveur et Dieu. Il est au centre de notre foi, de notre adoration
+                et de notre engagement. Nous désirons faire connaître son amour
+                et partager fidèlement sa Parole.
+            </p>
+
+            <h2>Notre mission</h2>
+
+            <div class="about-mission">
+
+                <div class="mission-card">
+                    <h3>Adoration</h3>
+                    <p>
+                        Rassembler les croyants pour célébrer Dieu et lui offrir
+                        une adoration sincère.
+                    </p>
+                </div>
+
+                <div class="mission-card">
+                    <h3>Prière</h3>
+                    <p>
+                        Créer des moments de communion et de prière où chacun
+                        peut chercher le Seigneur.
+                    </p>
+                </div>
+
+                <div class="mission-card">
+                    <h3>Évangélisation</h3>
+                    <p>
+                        Partager la Bonne Nouvelle de Jésus-Christ et inviter
+                        chacun à venir à Lui.
+                    </p>
+                </div>
+
+            </div>
+
+            <h2>Le responsable et l'équipe</h2>
+
+            <img
+                class="about-photo"
+                src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/wordpower-responsable-portrait.jpg"
+                alt="Portrait du responsable de WordPower Worship Center"
+            >
+
+            <p>
+                Le responsable de WordPower porte la vision du ministère et
+                conduit les temps d'adoration et de partage de la Parole.
+                Son engagement s'inscrit dans une mission : rassembler les
+                croyants autour de Jésus-Christ et faire connaître l'Évangile.
+            </p>
+
+            <img
+                class="community-photo"
+                src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/wordpower-rencontre-adoration-1.jpg"
+                alt="La communauté réunie pour l'adoration"
+            >
+
+            <h2>Notre engagement</h2>
+
+            <p>
+                Nous désirons être une communauté attachée à Jésus-Christ,
+                passionnée par la présence de Dieu et engagée à servir les
+                personnes autour d'elle. Que toute la gloire revienne au Seigneur.
+            </p>
+
+        </div>
+    </section>
+
+</section>
+
+
+<!-- MESSAGES -->
+
+<section id="messages" class="page">
+
+    <div class="page-hero">
+        <div>
+            <h1>Messages & méditations</h1>
+            <p>La Parole de Dieu pour nourrir votre foi au quotidien.</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="section-heading">
+                <div class="eyebrow">Grandir dans la foi</div>
+                <h2>Tous nos messages</h2>
+
+                <p>
+                    Retrouvez les exhortations, enseignements et méditations
+                    partagés par WordPower Worship Center.
+                </p>
+            </div>
+
+            <div class="posts-grid">
+
+                <article class="post-card">
+
+                    <img
+                        src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/1794568824588-1.jpg"
+                        alt="Illustration du message Dieu parmi nous"
+                    >
+
+                    <div class="post-card-content">
+
+                        <div class="post-date">13 novembre 2026</div>
+
+                        <h3>Dieu parmi nous</h3>
+
+                        <p>
+                            Thème : l'amour de Dieu.
+                            Jean 3:16 nous rappelle combien Dieu a aimé le monde.
+                        </p>
+
+                        <a href="#message-dieu-parmi-nous" class="btn btn-gold btn-small" onclick="showPage('article')">
+                            Lire le message
+                        </a>
+
+                    </div>
+                </article>
+
+            </div>
+
+        </div>
+    </section>
+
+</section>
+
+
+<!-- ARTICLE -->
+
+<section id="article" class="page">
+
+    <div class="section">
+        <div class="container article">
+
+            <a href="#messages" onclick="showPage('messages')" class="gold">
+                ← Retour aux messages
+            </a>
+
+            <br><br>
+
+            <div class="eyebrow">Message biblique</div>
+
+            <h1>Dieu parmi nous</h1>
+
+            <p class="article-theme">Thème : l'amour de Dieu</p>
+
+            <div class="article-content">
+
+                <p>
+                    Jean 3:16 : « Car Dieu a tant aimé le monde qu'il a donné
+                    son Fils unique, afin que quiconque croit en lui ne périsse
+                    point, mais qu'il ait la vie éternelle. »
+                </p>
+
+                <p>
+                    Aimer Dieu, les amis, il a tout fait pour nous afin que
+                    nous soyons sauvés.
+                </p>
+
+                <img
+                    class="article-image"
+                    src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/1794568824588-1.jpg"
+                    alt="Illustration du message Dieu parmi nous"
+                >
+
+            </div>
+
+            <div class="share-area">
+
+                <h3>Partager ce message</h3>
+
+                <div class="share-buttons">
+
+                    <a id="shareWhatsapp" href="#" target="_blank" rel="noopener">
+                        WhatsApp
+                    </a>
+
+                    <a id="shareFacebook" href="#" target="_blank" rel="noopener">
+                        Facebook
+                    </a>
+
+                    <button onclick="copyArticleLink()">
+                        Copier le lien
+                    </button>
+
+                </div>
+
+                <p id="copyMessage" style="margin-top:12px;font-size:13px;"></p>
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ÉVÉNEMENTS -->
+
+<section id="events" class="page">
+
+    <div class="page-hero">
+        <div>
+            <div class="eyebrow">Rencontres & rendez-vous</div>
+            <h1>Événements WordPower</h1>
+
+            <p>
+                Des temps forts pour adorer, prier, nous retrouver
+                et faire connaître Jésus-Christ.
+            </p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+
+            <h2 class="gold">Nos rendez-vous</h2>
+
+            <p>
+                Retrouvez sur cette page les événements organisés par
+                WordPower Worship Center : grandes rencontres d'adoration,
+                temps de prière, programmes spéciaux et actions d'évangélisation.
+                Les informations pratiques et les photos seront ajoutées
+                à chaque publication.
+            </p>
+
+            <br><br>
+
+            <h2 class="gold">Prochains événements et rencontres</h2>
+
+            <div class="empty-state">
+                <p>
+                    Aucun nouvel événement n'est annoncé pour le moment.
+                    Revenez bientôt pour découvrir nos prochains rendez-vous.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+</section>
+
+
+<!-- FAIRE UN DON -->
+
+<section id="donate" class="page">
+
+    <div class="page-hero">
+        <div>
+            <div class="eyebrow">Générosité & engagement</div>
+            <h1>Soutenir l'œuvre de Dieu</h1>
+
+            <p>
+                Votre soutien contribue à porter la vision de WordPower Worship
+                Center : adorer Dieu, rassembler les croyants, prier ensemble
+                et annoncer l'Évangile de Jésus-Christ.
+            </p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="donation-box">
+
+                <h2>Un soutien volontaire, au service de la mission</h2>
+
+                <p>
+                    Nous accueillons avec reconnaissance les personnes qui
+                    souhaitent soutenir les activités et les projets du ministère.
+                    Chaque don est libre et doit être fait selon les convictions
+                    et les moyens de chacun.
+                </p>
+
+                <h2>Comment contribuer ?</h2>
+
+                <p>
+                    Pour recevoir les coordonnées officielles et les modalités
+                    de contribution de WordPower Worship Center, veuillez
+                    contacter directement le ministère. Nous publierons ici
+                    les moyens de don vérifiés dès qu'ils auront été confirmés
+                    par le responsable.
+                </p>
+
+                <div class="important-note">
+                    <strong>Important :</strong>
+                    <p>
+                        Ne versez aucun don sur un numéro ou un compte qui
+                        n'a pas été confirmé par les responsables officiels
+                        de WordPower.
+                    </p>
+                </div>
+
+                <a
+                    href="https://www.facebook.com/profile.php?id=61587205627923"
+                    target="_blank"
+                    rel="noopener"
+                    class="btn btn-gold"
+                >
+                    Contacter le ministère
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+</section>
+
+</main>
+
+
+<!-- PIED DE PAGE -->
+
+<footer>
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+                <img
+                    class="footer-logo"
+                    src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/wordpower-logo-officiel-transparent.png"
+                    alt="Logo WordPower Worship Center"
+                >
+
+                <p>
+                    Unis pour adorer Dieu, transformés par sa Parole.
+                    Une communauté centrée sur Jésus-Christ.
+                </p>
+            </div>
+
+            <div>
+                <h3>Navigation</h3>
+
+                <ul>
+                    <li><a href="#accueil" onclick="showPage('home')">Accueil</a></li>
+                    <li><a href="#a-propos" onclick="showPage('about')">À propos</a></li>
+                    <li><a href="#messages" onclick="showPage('messages')">Messages</a></li>
+                    <li><a href="#evenements" onclick="showPage('events')">Événements</a></li>
+                    <li><a href="#faire-un-don" onclick="showPage('donate')">Faire un don</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Suivez-nous</h3>
+
+                <ul>
+                    <li>
+                        <a href="https://www.facebook.com/profile.php?id=61587205627923" target="_blank" rel="noopener">
+                            Facebook
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://www.instagram.com/wordpower_officiel?rpxt=eDJmcnd5aXU3ZGJi" target="_blank" rel="noopener">
+                            Instagram
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" onclick="alert('Le numéro WhatsApp officiel sera ajouté prochainement.');return false;">
+                            WhatsApp
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" onclick="alert('L’espace administration sera activé lors de la prochaine étape.');return false;">
+                            Administration
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © <span id="currentYear"></span> WordPower Worship Center.
+            Tous droits réservés.
+        </div>
+
+    </div>
+</footer>
+
+
+<script>
+
+/* NAVIGATION ENTRE LES PAGES */
+
+function showPage(pageName) {
+
+    document.querySelectorAll('.page').forEach(function(page) {
+        page.classList.remove('active');
+    });
+
+    const selectedPage = document.getElementById(pageName);
+
+    if (selectedPage) {
+        selectedPage.classList.add('active');
+    }
+
+    document.getElementById('navLinks').classList.remove('open');
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+
+    updateShareLinks();
+}
+
+
+/* MENU MOBILE */
+
+function toggleMenu() {
+
+    const menu = document.getElementById('navLinks');
+
+    menu.classList.toggle('open');
+
+}
+
+
+/* ANNÉE AUTOMATIQUE */
+
+document.getElementById('currentYear').textContent =
+    new Date().getFullYear();
+
+
+/* PARTAGE DU MESSAGE */
+
+function updateShareLinks() {
+
+    const articleUrl = window.location.href.split('#')[0] + '#message-dieu-parmi-nous';
+
+    const message = "Dieu parmi nous - WordPower Worship Center\n\n" + articleUrl;
+
+    document.getElementById('shareWhatsapp').href =
+        "https://wa.me/?text=" + encodeURIComponent(message);
+
+    document.getElementById('shareFacebook').href =
+        "https://www.facebook.com/sharer/sharer.php?u=" +
+        encodeURIComponent(articleUrl);
+}
+
+
+/* COPIER LE LIEN */
+
+async function copyArticleLink() {
+
+    const articleUrl = window.location.href.split('#')[0] + '#message-dieu-parmi-nous';
+
+    const message = document.getElementById('copyMessage');
+
+    try {
+
+        await navigator.clipboard.writeText(articleUrl);
+
+        message.textContent = "Lien copié avec succès.";
+
+    } catch (error) {
+
+        message.textContent = "Impossible de copier automatiquement. Copiez le lien depuis la barre d'adresse.";
+
+    }
+
+}
+
+updateShareLinks();
+
+
+/* NAVIGATION SI L'UTILISATEUR UTILISE LE BOUTON RETOUR */
+
+window.addEventListener('hashchange', function() {
+
+    const hash = window.location.hash;
+
+    if (hash === '#a-propos') showPage('about');
+    else if (hash === '#messages') showPage('messages');
+    else if (hash === '#evenements') showPage('events');
+    else if (hash === '#faire-un-don') showPage('donate');
+    else if (hash === '#message-dieu-parmi-nous') showPage('article');
+    else showPage('home');
+
+});
+
+</script>
+
+</body>
+</html>

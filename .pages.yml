@@ -1,6 +1,15 @@
 media:
-  input: images
-  output: /images
+  - name: images
+    label: Images
+    input: images
+    output: /images
+    categories:
+      - image
+    extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
 
 content:
   - name: messages

@@ -701,6 +701,102 @@ footer a:hover {
         padding: 23px;
     }
 }
+
+/* =========================================
+   ANIMATIONS WORDPOWER
+========================================= */
+
+/* État initial des éléments */
+.reveal {
+    opacity: 0;
+    transition:
+        opacity .85s ease,
+        transform .85s cubic-bezier(.22,.61,.36,1);
+}
+
+/* Images venant de la gauche */
+.reveal-left {
+    transform: translateX(-65px);
+}
+
+/* Images venant de la droite */
+.reveal-right {
+    transform: translateX(65px);
+}
+
+/* Titres et textes venant du bas */
+.reveal-up {
+    transform: translateY(35px);
+}
+
+/* Apparition normale */
+.reveal-fade {
+    transform: none;
+}
+
+/* État visible */
+.reveal.visible {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+/* Effet subtil sur les cartes */
+.post-card,
+.mission-card {
+    transition:
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+.post-card:hover,
+.mission-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(245,179,53,.55);
+}
+
+/* Zoom léger des images des cartes */
+.post-card img {
+    transition: transform .6s ease;
+}
+
+.post-card:hover img {
+    transform: scale(1.045);
+}
+
+/* Animation d'entrée du Hero */
+.hero-content {
+    animation: heroEntrance 1.1s ease both;
+}
+
+@keyframes heroEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Respect des préférences de réduction d'animations */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+
 </style>
 </head>
 
@@ -1402,6 +1498,8 @@ function openMessage(slug) {
     `;
 
     showPage("article");
+    
+    initScrollAnimations();
 
     updateShareLinks(item);
 
@@ -1568,6 +1666,8 @@ function openEvent(slug) {
     
     showPage("article");
     
+    initScrollAnimations();
+    
     updateShareLinks(item);
     
 }
@@ -1705,6 +1805,97 @@ function handleNavigation() {
 
 }
 
+/* ==========================================
+   ANIMATIONS AU DÉFILEMENT
+========================================== */
+
+let revealObserver;
+
+function initScrollAnimations() {
+    
+    // Vérifier si le navigateur prend en charge cette fonction
+    if (!("IntersectionObserver" in window)) {
+        document.querySelectorAll(".reveal").forEach(function(element) {
+            element.classList.add("visible");
+        });
+        return;
+    }
+    
+    // Créer l'observateur une seule fois
+    if (!revealObserver) {
+        
+        revealObserver = new IntersectionObserver(function(entries) {
+            
+            entries.forEach(function(entry) {
+                
+                if (entry.isIntersecting) {
+                    
+                    entry.target.classList.add("visible");
+                    
+                    // Ne plus observer un élément déjà animé
+                    revealObserver.unobserve(entry.target);
+                    
+                }
+                
+            });
+            
+        }, {
+            threshold: 0.12
+        });
+        
+    }
+    
+    // Éléments à animer
+    const elements = document.querySelectorAll(
+        ".mission-card, " +
+        ".home-message img, " +
+        ".about-photo, " +
+        ".community-photo, " +
+        ".post-card, " +
+        ".donation-box, " +
+        ".faith-section h2, " +
+        ".faith-section p, " +
+        ".cta h2, " +
+        ".cta p, " +
+        ".section-heading, " +
+        ".footer-grid > div"
+    );
+    
+    elements.forEach(function(element, index) {
+        
+        // Ne pas animer deux fois le même élément
+        if (element.classList.contains("reveal")) return;
+        
+        // Les cartes apparaissent depuis le bas
+        if (element.classList.contains("post-card") ||
+            element.classList.contains("mission-card")) {
+            
+            element.classList.add("reveal", "reveal-up");
+            
+        }
+        
+        // Les images apparaissent depuis la gauche
+        else if (element.tagName === "IMG") {
+            
+            element.classList.add("reveal", "reveal-left");
+            
+        }
+        
+        // Les autres éléments apparaissent depuis le bas
+        else {
+            
+            element.classList.add("reveal", "reveal-up");
+            
+        }
+        
+        // Petit décalage entre les éléments
+        element.style.transitionDelay = (index % 4) * 100 + "ms";
+        
+        revealObserver.observe(element);
+        
+    });
+    
+}
 
 /* ==========================================
    INITIALISATION
@@ -1716,7 +1907,15 @@ document.getElementById("currentYear").textContent =
 renderMessages();
 renderEvents();
 
+// Activer les animations
+initScrollAnimations();
+
 window.addEventListener("hashchange", handleNavigation);
+
+// Gérer les animations après chaque changement de page
+window.addEventListener("hashchange", function() {
+    setTimeout(initScrollAnimations, 100);
+});
 
 handleNavigation();
 

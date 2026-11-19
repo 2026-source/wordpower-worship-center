@@ -2054,8 +2054,34 @@ function initScrollAnimations() {
    INITIALISATION
 ========================================== */
 
+/* ==========================================
+   SPLASH AU PREMIER CHARGEMENT
+========================================== */
+
+function showInitialSplash() {
+
+    const splash = document.getElementById("pageSplash");
+
+    if (!splash) return;
+
+    // Afficher la flamme à l'ouverture du site
+    splash.classList.add("active");
+
+    // Faire disparaître la flamme après 1,8 seconde
+    setTimeout(function() {
+
+        splash.classList.remove("active");
+
+    }, 1800);
+
+}
+
+
+
 document.getElementById("currentYear").textContent =
     new Date().getFullYear();
+
+showInitialSplash();
 
 renderMessages();
 renderEvents();

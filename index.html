@@ -1495,22 +1495,22 @@ function renderEvents() {
 ========================================== */
 
 function openEvent(slug) {
-
+    
     const item = (wordPowerData.evenements || []).find(function(event) {
         return event.slug === slug;
     });
-
+    
     if (!item) {
         showPage("events");
         return;
     }
-
+    
     const container = document.getElementById("articleContent");
-
-    const image = item.image
-        ? `<img class="article-image" src="${getImageUrl(item.image)}" alt="">`
-        : "";
-
+    
+    const image = item.image ?
+        `<img class="article-image" src="${getImageUrl(item.image)}" alt="">` :
+        "";
+    
     container.innerHTML = `
 
         <a href="#evenements" onclick="showPage('events')" class="gold">
@@ -1540,10 +1540,36 @@ function openEvent(slug) {
             ${item.body_html || ""}
         </div>
 
+        <div class="share-area">
+
+            <h3>Partager cet événement</h3>
+
+            <div class="share-buttons">
+
+                <a id="shareWhatsapp" href="#" target="_blank" rel="noopener">
+                    WhatsApp
+                </a>
+
+                <a id="shareFacebook" href="#" target="_blank" rel="noopener">
+                    Facebook
+                </a>
+
+                <button onclick="copyArticleLink()">
+                    Copier le lien
+                </button>
+
+            </div>
+
+            <p id="copyMessage" style="margin-top:12px;font-size:13px;"></p>
+
+        </div>
+
     `;
-
+    
     showPage("article");
-
+    
+    updateShareLinks(item);
+    
 }
 
 

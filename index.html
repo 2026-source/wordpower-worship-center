@@ -991,35 +991,13 @@ footer a:hover {
                     partagés par WordPower Worship Center.
                 </p>
             </div>
-
-            <div class="posts-grid">
-
-                <article class="post-card">
-
-                    <img
-                        src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/1794568824588-1.jpg"
-                        alt="Illustration du message Dieu parmi nous"
-                    >
-
-                    <div class="post-card-content">
-
-                        <div class="post-date">13 novembre 2026</div>
-
-                        <h3>Dieu parmi nous</h3>
-
-                        <p>
-                            Thème : l'amour de Dieu.
-                            Jean 3:16 nous rappelle combien Dieu a aimé le monde.
-                        </p>
-
-                        <a href="#message-dieu-parmi-nous" class="btn btn-gold btn-small" onclick="showPage('article')">
-                            Lire le message
-                        </a>
-
-                    </div>
-                </article>
-
-            </div>
+<div class="posts-grid" id="messagesList">
+  
+  <div class="empty-state">
+    <p>Chargement des messages...</p>
+  </div>
+  
+</div>
 
         </div>
     </section>
@@ -1032,40 +1010,19 @@ footer a:hover {
 <section id="article" class="page">
 
     <div class="section">
-        <div class="container article">
-
-            <a href="#messages" onclick="showPage('messages')" class="gold">
-                ← Retour aux messages
-            </a>
-
-            <br><br>
-
-            <div class="eyebrow">Message biblique</div>
-
-            <h1>Dieu parmi nous</h1>
-
-            <p class="article-theme">Thème : l'amour de Dieu</p>
-
-            <div class="article-content">
-
-                <p>
-                    Jean 3:16 : « Car Dieu a tant aimé le monde qu'il a donné
-                    son Fils unique, afin que quiconque croit en lui ne périsse
-                    point, mais qu'il ait la vie éternelle. »
-                </p>
-
-                <p>
-                    Aimer Dieu, les amis, il a tout fait pour nous afin que
-                    nous soyons sauvés.
-                </p>
-
-                <img
-                    class="article-image"
-                    src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/1794568824588-1.jpg"
-                    alt="Illustration du message Dieu parmi nous"
-                >
-
-            </div>
+       <div class="container article" id="articleContent">
+  
+  <a href="#messages" onclick="showPage('messages')" class="gold">
+    ← Retour aux messages
+  </a>
+  
+  <br><br>
+  
+  <div class="empty-state">
+    <p>Sélectionnez un message pour le lire.</p>
+  </div>
+  
+</div>
 
             <div class="share-area">
 
@@ -1284,75 +1241,418 @@ footer a:hover {
     </div>
 </footer>
 
+<script src="content-data.js"></script>
 
 <script>
 
-/* NAVIGATION ENTRE LES PAGES */
+/* ==========================================
+   DONNÉES WORDPOWER
+========================================== */
+
+const wordPowerData = window.WORDPOWER_CONTENT || {
+    messages: [],
+    evenements: []
+};
+
+
+/* ==========================================
+   CHEMIN DES IMAGES
+   Compatible avec GitHub Pages
+========================================== */
+
+function getImageUrl(path) {
+
+    if (!path) return "";
+
+    if (/^https?:\/\//i.test(path)) {
+        return path;
+    }
+
+    const basePath = "/wordpower-worship-center/";
+    return basePath + path.replace(/^\/+/, "");
+}
+
+
+/* ==========================================
+   FORMAT DE DATE
+========================================== */
+
+function formatDate(value) {
+
+    if (!value) return "";
+
+    const date = new Date(value + "T00:00:00");
+
+    if (isNaN(date.getTime())) return value;
+
+    return date.toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+}
+
+
+/* ==========================================
+   AFFICHER LES MESSAGES
+========================================== */
+
+function renderMessages() {
+
+    const container = document.getElementById("messagesList");
+
+    if (!container) return;
+
+    const messages = wordPowerData.messages || [];
+
+    if (messages.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <p>
+                    Aucun message n'est disponible pour le moment.
+                    Revenez bientôt pour découvrir nos prochaines méditations.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = messages.map(function(item) {
+
+        const image = item.image
+            ? `<img src="${getImageUrl(item.image)}" alt="">`
+            : "";
+
+        return `
+            <article class="post-card">
+
+                ${image}
+
+                <div class="post-card-content">
+
+                    <div class="post-date">
+                        ${formatDate(item.date)}
+                    </div>
+
+                    <h3>${item.title || "Sans titre"}</h3>
+
+                    <p>
+                        ${item.excerpt || item.bible_reference || ""}
+                    </p>
+
+                    <a
+                        href="#message-${item.slug}"
+                        class="btn btn-gold btn-small"
+                        onclick="openMessage('${item.slug}')"
+                    >
+                        Lire le message
+                    </a>
+
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+
+}
+
+
+/* ==========================================
+   OUVRIR UN MESSAGE
+========================================== */
+
+function openMessage(slug) {
+
+    const item = (wordPowerData.messages || []).find(function(message) {
+        return message.slug === slug;
+    });
+
+    if (!item) {
+        showPage("messages");
+        return;
+    }
+
+    const container = document.getElementById("articleContent");
+
+    const image = item.image
+        ? `<img class="article-image" src="${getImageUrl(item.image)}" alt="">`
+        : "";
+
+    container.innerHTML = `
+
+        <a href="#messages" onclick="showPage('messages')" class="gold">
+            ← Retour aux messages
+        </a>
+
+        <br><br>
+
+        <div class="eyebrow">Message biblique</div>
+
+        <h1>${item.title || "Sans titre"}</h1>
+
+        <p class="post-date">
+            ${formatDate(item.date)}
+        </p>
+
+        <p class="article-theme">
+            ${item.bible_reference || ""}
+        </p>
+
+        ${image}
+
+        <div class="article-content">
+            ${item.body_html || ""}
+        </div>
+
+        <div class="share-area">
+
+            <h3>Partager ce message</h3>
+
+            <div class="share-buttons">
+
+                <a id="shareWhatsapp" href="#" target="_blank" rel="noopener">
+                    WhatsApp
+                </a>
+
+                <a id="shareFacebook" href="#" target="_blank" rel="noopener">
+                    Facebook
+                </a>
+
+                <button onclick="copyArticleLink()">
+                    Copier le lien
+                </button>
+
+            </div>
+
+            <p id="copyMessage" style="margin-top:12px;font-size:13px;"></p>
+
+        </div>
+    `;
+
+    showPage("article");
+
+    updateShareLinks(item);
+
+}
+
+
+/* ==========================================
+   AFFICHER LES ÉVÉNEMENTS
+========================================== */
+
+function renderEvents() {
+
+    const section = document.querySelector("#events .container");
+
+    if (!section) return;
+
+    const events = wordPowerData.evenements || [];
+
+    const oldList = document.getElementById("eventsList");
+
+    if (oldList) oldList.remove();
+
+    const list = document.createElement("div");
+
+    list.id = "eventsList";
+    list.className = "posts-grid";
+
+    if (events.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-state">
+                <p>
+                    Aucun nouvel événement n'est annoncé pour le moment.
+                    Revenez bientôt pour découvrir nos prochains rendez-vous.
+                </p>
+            </div>
+        `;
+
+    } else {
+
+        list.innerHTML = events.map(function(item) {
+
+            const image = item.image
+                ? `<img src="${getImageUrl(item.image)}" alt="">`
+                : "";
+
+            return `
+                <article class="post-card">
+
+                    ${image}
+
+                    <div class="post-card-content">
+
+                        <div class="post-date">
+                            ${formatDate(item.date)}
+                        </div>
+
+                        <h3>${item.title || "Événement WordPower"}</h3>
+
+                        <p>${item.excerpt || item.theme || ""}</p>
+
+                        <p>
+                            ${item.time || ""}
+                            ${item.location ? " · " + item.location : ""}
+                        </p>
+
+                        <a
+                            href="#evenement-${item.slug}"
+                            class="btn btn-gold btn-small"
+                            onclick="openEvent('${item.slug}')"
+                        >
+                            Voir les détails
+                        </a>
+
+                    </div>
+
+                </article>
+            `;
+
+        }).join("");
+
+    }
+
+    section.appendChild(list);
+
+}
+
+
+/* ==========================================
+   OUVRIR UN ÉVÉNEMENT
+========================================== */
+
+function openEvent(slug) {
+
+    const item = (wordPowerData.evenements || []).find(function(event) {
+        return event.slug === slug;
+    });
+
+    if (!item) {
+        showPage("events");
+        return;
+    }
+
+    const container = document.getElementById("articleContent");
+
+    const image = item.image
+        ? `<img class="article-image" src="${getImageUrl(item.image)}" alt="">`
+        : "";
+
+    container.innerHTML = `
+
+        <a href="#evenements" onclick="showPage('events')" class="gold">
+            ← Retour aux événements
+        </a>
+
+        <br><br>
+
+        <div class="eyebrow">Événement WordPower</div>
+
+        <h1>${item.title || "Événement WordPower"}</h1>
+
+        <p class="post-date">${formatDate(item.date)}</p>
+
+        <p class="article-theme">
+            ${item.theme || ""}
+        </p>
+
+        ${image}
+
+        <p>
+            ${item.time || ""}
+            ${item.location ? " · " + item.location : ""}
+        </p>
+
+        <div class="article-content">
+            ${item.body_html || ""}
+        </div>
+
+    `;
+
+    showPage("article");
+
+}
+
+
+/* ==========================================
+   NAVIGATION ENTRE LES PAGES
+========================================== */
 
 function showPage(pageName) {
 
-    document.querySelectorAll('.page').forEach(function(page) {
-        page.classList.remove('active');
+    document.querySelectorAll(".page").forEach(function(page) {
+        page.classList.remove("active");
     });
 
     const selectedPage = document.getElementById(pageName);
 
     if (selectedPage) {
-        selectedPage.classList.add('active');
+        selectedPage.classList.add("active");
     }
 
-    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById("navLinks").classList.remove("open");
 
     window.scrollTo({
         top: 0,
-        behavior: 'smooth'
+        behavior: "smooth"
     });
 
-    updateShareLinks();
 }
 
 
-/* MENU MOBILE */
+/* ==========================================
+   MENU MOBILE
+========================================== */
 
 function toggleMenu() {
 
-    const menu = document.getElementById('navLinks');
-
-    menu.classList.toggle('open');
+    document.getElementById("navLinks").classList.toggle("open");
 
 }
 
 
-/* ANNÉE AUTOMATIQUE */
+/* ==========================================
+   PARTAGE DU MESSAGE
+========================================== */
 
-document.getElementById('currentYear').textContent =
-    new Date().getFullYear();
+function updateShareLinks(item) {
 
+    const articleUrl = window.location.href.split("#")[0] + window.location.hash;
 
-/* PARTAGE DU MESSAGE */
+    const title = item ? item.title : "Message biblique";
 
-function updateShareLinks() {
+    const message = title + " - WordPower Worship Center\n\n" + articleUrl;
 
-    const articleUrl = window.location.href.split('#')[0] + '#message-dieu-parmi-nous';
+    const whatsapp = document.getElementById("shareWhatsapp");
+    const facebook = document.getElementById("shareFacebook");
 
-    const message = "Dieu parmi nous - WordPower Worship Center\n\n" + articleUrl;
+    if (whatsapp) {
+        whatsapp.href =
+            "https://wa.me/?text=" + encodeURIComponent(message);
+    }
 
-    document.getElementById('shareWhatsapp').href =
-        "https://wa.me/?text=" + encodeURIComponent(message);
+    if (facebook) {
+        facebook.href =
+            "https://www.facebook.com/sharer/sharer.php?u=" +
+            encodeURIComponent(articleUrl);
+    }
 
-    document.getElementById('shareFacebook').href =
-        "https://www.facebook.com/sharer/sharer.php?u=" +
-        encodeURIComponent(articleUrl);
 }
 
 
-/* COPIER LE LIEN */
+/* ==========================================
+   COPIER LE LIEN
+========================================== */
 
 async function copyArticleLink() {
 
-    const articleUrl = window.location.href.split('#')[0] + '#message-dieu-parmi-nous';
+    const articleUrl = window.location.href;
 
-    const message = document.getElementById('copyMessage');
+    const message = document.getElementById("copyMessage");
 
     try {
 
@@ -1362,29 +1662,68 @@ async function copyArticleLink() {
 
     } catch (error) {
 
-        message.textContent = "Impossible de copier automatiquement. Copiez le lien depuis la barre d'adresse.";
+        message.textContent =
+            "Impossible de copier automatiquement. Copiez le lien depuis la barre d'adresse.";
 
     }
 
 }
 
-updateShareLinks();
+
+/* ==========================================
+   GESTION DES LIENS ET DU RETOUR NAVIGATEUR
+========================================== */
+
+function handleNavigation() {
+
+    const hash = decodeURIComponent(window.location.hash);
+
+    if (hash.startsWith("#message-")) {
+
+        openMessage(hash.replace("#message-", ""));
+
+    } else if (hash.startsWith("#evenement-")) {
+
+        openEvent(hash.replace("#evenement-", ""));
+
+    } else if (hash === "#a-propos") {
+
+        showPage("about");
+
+    } else if (hash === "#messages") {
+
+        showPage("messages");
+
+    } else if (hash === "#evenements") {
+
+        showPage("events");
+
+    } else if (hash === "#faire-un-don") {
+
+        showPage("donate");
+
+    } else {
+
+        showPage("home");
+
+    }
+
+}
 
 
-/* NAVIGATION SI L'UTILISATEUR UTILISE LE BOUTON RETOUR */
+/* ==========================================
+   INITIALISATION
+========================================== */
 
-window.addEventListener('hashchange', function() {
+document.getElementById("currentYear").textContent =
+    new Date().getFullYear();
 
-    const hash = window.location.hash;
+renderMessages();
+renderEvents();
 
-    if (hash === '#a-propos') showPage('about');
-    else if (hash === '#messages') showPage('messages');
-    else if (hash === '#evenements') showPage('events');
-    else if (hash === '#faire-un-don') showPage('donate');
-    else if (hash === '#message-dieu-parmi-nous') showPage('article');
-    else showPage('home');
+window.addEventListener("hashchange", handleNavigation);
 
-});
+handleNavigation();
 
 </script>
 

@@ -797,10 +797,120 @@ footer a:hover {
     }
 }
 
+
+/* =====================================
+   SPLASH DE TRANSITION WORDPOWER
+===================================== */
+
+#pageSplash {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #100b08;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease, visibility .25s ease;
+}
+
+#pageSplash.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.splash-flame-container {
+    position: relative;
+    width: 115px;
+    height: 115px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash-flame {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter:
+        drop-shadow(0 0 8px #ff8c00)
+        drop-shadow(0 0 20px #ff4500);
+    animation: flameBurn .65s ease-in-out infinite alternate;
+}
+
+.flame-glow {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    background: #ff6500;
+    border-radius: 50%;
+    filter: blur(35px);
+    opacity: .65;
+    animation: flameGlow .5s ease-in-out infinite alternate;
+}
+
+@keyframes flameBurn {
+    0% {
+        transform: scale(.92) rotate(-3deg);
+        filter:
+            drop-shadow(0 0 8px #ff8c00)
+            drop-shadow(0 0 18px #ff4500);
+    }
+
+    100% {
+        transform: scale(1.12) rotate(3deg);
+        filter:
+            drop-shadow(0 0 15px #ffd000)
+            drop-shadow(0 0 30px #ff4500);
+    }
+}
+
+@keyframes flameGlow {
+    from {
+        transform: scale(.8);
+        opacity: .4;
+    }
+
+    to {
+        transform: scale(1.3);
+        opacity: .85;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .splash-flame,
+    .flame-glow {
+        animation: none;
+    }
+}
+
 </style>
 </head>
 
 <body>
+
+<!-- =====================================
+     SPLASH DE TRANSITION WORDPOWER
+===================================== -->
+
+<div id="pageSplash">
+
+    <div class="splash-flame-container">
+
+        <img
+            src="https://wordpower25.wordpress.com/wp-content/uploads/2026/11/wordpower-icon-transparent.png?w=201"
+            alt="Flamme WordPower"
+            class="splash-flame"
+        >
+
+        <div class="flame-glow"></div>
+
+    </div>
+
+</div>
 
 <!-- EN-TÊTE -->
 
@@ -1679,27 +1789,68 @@ function openEvent(slug) {
    NAVIGATION ENTRE LES PAGES
 ========================================== */
 
+/* ==========================================
+   NAVIGATION AVEC SPLASH WORDPOWER
+========================================== */
+
+let pageTransitionRunning = false;
+
 function showPage(pageName) {
-
-    document.querySelectorAll(".page").forEach(function(page) {
-        page.classList.remove("active");
-    });
-
+    
+    const splash = document.getElementById("pageSplash");
+    
+    // Vérifier que la page demandée existe
     const selectedPage = document.getElementById(pageName);
-
-    if (selectedPage) {
+    
+    if (!selectedPage) return;
+    
+    // Éviter les transitions superposées
+    if (pageTransitionRunning) return;
+    
+    // Ne pas rejouer l'animation si on est déjà sur cette page
+    if (selectedPage.classList.contains("active")) return;
+    
+    pageTransitionRunning = true;
+    
+    // Afficher la flamme
+    splash.classList.add("active");
+    
+    // Attendre que la flamme apparaisse
+    setTimeout(function() {
+        
+        document.querySelectorAll(".page").forEach(function(page) {
+            page.classList.remove("active");
+        });
+        
         selectedPage.classList.add("active");
-    }
-
-    document.getElementById("navLinks").classList.remove("open");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+        
+        // Fermer le menu mobile
+        const navLinks = document.getElementById("navLinks");
+        
+        if (navLinks) {
+            navLinks.classList.remove("open");
+        }
+        
+        // Revenir en haut de la page
+        window.scrollTo({
+            top: 0,
+            behavior: "instant"
+        });
+        
+        // Laisser apparaître la nouvelle page
+        setTimeout(function() {
+            
+            splash.classList.remove("active");
+            
+            setTimeout(function() {
+                pageTransitionRunning = false;
+            }, 300);
+            
+        }, 300);
+        
+    }, 300);
+    
 }
-
 
 /* ==========================================
    MENU MOBILE

@@ -1,7 +1,6 @@
 import json
 import re
 from pathlib import Path
-from datetime import date
 
 import yaml
 import markdown
@@ -9,7 +8,7 @@ import markdown
 
 # ==================================================
 # WORDPOWER WORSHIP CENTER
-# Générateur automatique des messages et événements
+# Générateur des messages et événements publiés
 # ==================================================
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -19,7 +18,7 @@ OUTPUT_FILE = ROOT / "content-data.js"
 
 
 def slugify(text):
-    """Créer une adresse URL propre à partir d'un titre."""
+    """Créer un identifiant propre à partir d'un titre."""
 
     text = str(text).lower().strip()
 
@@ -64,7 +63,7 @@ def read_markdown(file_path):
 
 
 def load_collection(folder_name):
-    """Charger tous les contenus publiés d'une collection."""
+    """Charger uniquement les contenus publiés."""
 
     folder = CONTENT_DIR / folder_name
     results = []
@@ -72,17 +71,18 @@ def load_collection(folder_name):
     if not folder.exists():
         return results
 
-    for file_path in sorted(folder.glob("*.md")):
+    for file_path in folder.glob("*.md"):
 
         metadata, body = read_markdown(file_path)
 
-        # Ne pas afficher les contenus non publiés.
+        # Ignorer les contenus non publiés.
         if metadata.get("published") is not True:
             continue
 
         title = metadata.get("title", "Sans titre")
+        slug = slugify(title)
 
-        # Transformer le contenu Markdown en HTML.
+        # Convertir le contenu Markdown en HTML.
         body_html = markdown.markdown(
             body,
             extensions=["extra", "nl2br"]
@@ -91,13 +91,14 @@ def load_collection(folder_name):
         item = dict(metadata)
 
         item["title"] = title
-        item["slug"] = slugify(title)
+        item["slug"] = slug
         item["body_html"] = body_html
-        item["url"] = (
-            "messages/" + slugify(title) + ".html"
-            if folder_name == "messages"
-            else "evenements/" + slugify(title) + ".html"
-        )
+
+        # Lien unique du message ou de l'événement.
+        if folder_name == "messages":
+            item["url"] = "#message-" + slug
+        else:
+            item["url"] = "#evenement-" + slug
 
         results.append(item)
 
@@ -122,7 +123,11 @@ def main():
 
     OUTPUT_FILE.write_text(
         "window.WORDPOWER_CONTENT = "
-        + json.dumps(data, ensure_ascii=False, default=str)
+        + json.dumps(
+            data,
+            ensure_ascii=False,
+            default=str
+        )
         + ";\n",
         encoding="utf-8"
     )
